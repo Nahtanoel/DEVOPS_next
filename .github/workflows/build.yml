@@ -6,6 +6,9 @@ on:
 jobs:
   build:
       runs-on: ubuntu-latest
+      defaults: 
+        run:
+          working-directory: ./devops-nextjs
       steps:
         -
           name: Checkout
@@ -23,6 +26,6 @@ jobs:
           name: Build and push
           uses: docker/build-push-action@v5
           with:
-            file: ./devops-nextjs/Dockerfile
+            file: ./Dockerfile
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{github.sha}}
