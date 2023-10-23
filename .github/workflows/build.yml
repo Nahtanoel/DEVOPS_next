@@ -22,7 +22,7 @@ jobs:
       with:
         registry: 
         username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
         
     - name: Build and push container image to repository
       uses: docker/build-push-action@v3
