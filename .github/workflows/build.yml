@@ -3,10 +3,6 @@ on:
   push:
     branches: 'main'
   workflow_dispatch:
-env:
-  DOCKER_USER: ${{secrets.DOCKER_USER}}
-  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-  REPO_NAME: ${{secrets.REPO_NAME}}
 jobs:
   build:
       runs-on: ubuntu-latest
@@ -30,4 +26,4 @@ jobs:
             context: ./devops-nextjs
             file: ./Dockerfile
             push: true
-            tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{github.sha}}
