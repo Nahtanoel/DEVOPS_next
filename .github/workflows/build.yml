@@ -28,5 +28,5 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/devopsnext:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
         file: ./Dockerfile
