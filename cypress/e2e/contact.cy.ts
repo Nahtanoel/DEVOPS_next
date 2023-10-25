@@ -1,6 +1,11 @@
 describe('Contact',()=>{
-    it('should make a goold fill of form',()=>{
+
+    beforeEach(() =>{
         cy.visit('http://localhost:3000/contact')
+    })
+
+    it('should make a goold fill of form',()=>{
+        
 
         cy.get('input[name="lastname"]').type('John')
         cy.get('input[name="firstname"]').type('Doe')
@@ -16,7 +21,6 @@ describe('Contact',()=>{
 
 
     it('should not validate the input because of lastName',()=>{
-        cy.visit('http://localhost:3000/contact')
 
         cy.get('input[name="lastname"]').type('J')
         cy.get('input[name="firstname"]').type('Doe')
@@ -31,7 +35,6 @@ describe('Contact',()=>{
     })
 
     it('should not validate the input because of firstName',()=>{
-        cy.visit('http://localhost:3000/contact')
 
         cy.get('input[name="lastname"]').type('John')
         cy.get('input[name="firstname"]').type('D')
@@ -46,7 +49,6 @@ describe('Contact',()=>{
     })
 
     it('should not validate the input because of email',()=>{
-        cy.visit('http://localhost:3000/contact')
 
         cy.get('input[name="lastname"]').type('John')
         cy.get('input[name="firstname"]').type('Doe')
@@ -61,7 +63,6 @@ describe('Contact',()=>{
     })
 
     it('should not validate the input because of message',()=>{
-        cy.visit('http://localhost:3000/contact')
 
         cy.get('input[name="lastname"]').type('John')
         cy.get('input[name="firstname"]').type('Doe')
