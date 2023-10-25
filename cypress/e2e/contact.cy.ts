@@ -5,7 +5,7 @@ describe('Contact',()=>{
         cy.visit('http://localhost:3000/contact')
     })
 
-    it('should make a goold fill of form',()=>{
+    it('should make a goold fill of form',()=>{ 
          
 
         cy.get('input[name="lastname"]').type('John')
