@@ -50,6 +50,9 @@ jobs:
   deploy-preview:
         runs-on: ubuntu-latest
         needs: build
+        environment: 
+            name : ${{ github.ref_name }}
+            url: ${{steps.deploy-preview.outputs.app-url}}
         steps:
         # checkout the repo
         - name: 'Checkout GitHub Action'
