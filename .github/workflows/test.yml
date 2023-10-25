@@ -19,6 +19,7 @@ jobs:
   
   build:
     runs-on: ubuntu-latest
+    needs: test_before_pr
     steps:
     - uses: actions/checkout@v3
 
@@ -66,11 +67,9 @@ jobs:
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: devopsnext
-            dns-name-label: ${{github.sha}}-devopsnext
+            dns-name-label: ${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext
             image: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
-            cpu: 1   #Optional
-            memory: 0.1   #Optional
+            name: ${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext
             registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
             registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
-            name: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
             location: 'francecentral'
