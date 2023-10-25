@@ -72,4 +72,5 @@ jobs:
             name: ${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext
             registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
             registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+            registry-login-server: index.docker.io
             location: 'francecentral'
