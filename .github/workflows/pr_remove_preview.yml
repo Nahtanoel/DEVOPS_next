@@ -1,0 +1,23 @@
+name : Delete pull request preview
+
+on : 
+    pull_request:
+        types: [closed]
+
+jobs:
+    delete-preview:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 'Login via Azure CLI'
+              uses: azure/login@v1
+              with: 
+                creds: ${{secrets.AZURE_CREDENTIALS}}
+            - name: Inject slug/short variables
+              uses: rlespinasse/github-slug-action@v4
+              
+            - name: 'Delete Azure Container Instance'
+              uses: azure/CLI@v1
+              with:
+                azcliversion: 2.30.0
+                inlineScript: |
+                  az container delete --name ${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext --resource-group devopsnext --yes
