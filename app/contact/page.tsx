@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { onContactRequest } from "./actions";
+import { useState } from 'react';
 
 const contactRequestSchema = z.object({
   firstname:z.string().min(2),
@@ -16,16 +17,27 @@ type FormData = z.infer<typeof contactRequestSchema>
 
 export default function Page() {
 
+  const [message,setMessage] = useState<string>("");
+
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm<FormData>({
+    reValidateMode:"onChange",
     resolver: zodResolver(contactRequestSchema)}
   )
 
-  const onSubmit = (data: FormData) => {
-    onContactRequest(data);
+  const onSubmit = async (data: FormData) => {
+    try{
+      onContactRequest(data);
+      setMessage("Votre message a bien été envoyé")
+      reset()
+    }catch(error){
+      setMessage("Une erreur est survenue")
+    }
+    
   }
 
   return (
@@ -58,10 +70,11 @@ export default function Page() {
 
         </div>
 
-        <button type="submit">Send message</button>
+        <button type="submit">Envoyer</button>
         
-
-      </form><button onClick={()=> alert("")}>Sen</button>
+        
+      </form>
+      {message && <span>{message}</span>}
     </div>
   )
 }
