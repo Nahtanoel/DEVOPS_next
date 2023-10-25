@@ -50,6 +50,9 @@ jobs:
   deploy-preview:
         runs-on: ubuntu-latest
         needs: build
+        environment: 
+            name : ${{ github.ref_name }}
+            url: ${{steps.deploy-preview.outputs.app-url}}
         steps:
         # checkout the repo
         - name: 'Checkout GitHub Action'
@@ -67,7 +70,7 @@ jobs:
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: devopsnext
-            dns-name-label: ${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext
+            dns-name-label: nath--${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext
             image: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
             name: ${{env.GITHUB_HEAD_REF_SLUG}}-devopsnext
             registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
