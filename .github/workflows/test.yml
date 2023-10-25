@@ -16,4 +16,61 @@ jobs:
         with:
           build: npm run build
           start: npm start
-    
+  
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name : ls
+      run : ls
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: 
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        
+    - name: Build and push container image to repository
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
+        file: ./Dockerfile
+
+    - name : Print image in the step summary
+      run : echo ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }} >> $GITHUB_STEP_SUMMARY
+
+
+  deploy-preview:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+        # checkout the repo
+        - name: 'Checkout GitHub Action'
+          uses: actions/checkout@master
+          
+        - name: 'Login via Azure CLI'
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+        - name : Inject slug/short variables
+          uses : rlespinasse/github-slug-action@v4
+
+        - name: 'Deploy to Azure Container Instances'
+          uses: 'azure/aci-deploy@v1'
+          with:
+            resource-group: devopsnext
+            dns-name-label: ${{github.sha}}-devopsnext
+            image: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
+            cpu: 1   #Optional
+            memory: 0.1   #Optional
+            registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+            registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
+            name: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
+            location: 'francecentral'
