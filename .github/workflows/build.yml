@@ -43,6 +43,9 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }}
         file: ./Dockerfile
+
+    - name : Print image in the step summary
+      run : echo ${{ secrets.DOCKERHUB_USERNAME }}/devops-next:${{ github.sha }} >> $GITHUB_STEP_SUMMARY
   deploy:
     runs-on: ubuntu-latest
     needs: build
