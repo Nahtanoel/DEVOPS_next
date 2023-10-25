@@ -5,7 +5,7 @@ describe('Contact',()=>{
     })
 
     it('should make a goold fill of form',()=>{
-        
+         
 
         cy.get('input[name="lastname"]').type('John')
         cy.get('input[name="firstname"]').type('Doe')
