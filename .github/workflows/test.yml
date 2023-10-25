@@ -74,3 +74,4 @@ jobs:
             registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
             registry-login-server: index.docker.io
             location: 'francecentral'
+            ports: 3000
