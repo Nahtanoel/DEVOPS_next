@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-slate-600">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-slate-200">
       <>
       <p>Nathaniel ceci mon appli test nextjs</p>
 
